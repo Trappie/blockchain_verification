@@ -5,10 +5,17 @@ require_relative 'utils'
 
 # testing class for utils.rb
 class UtilsTest < Minitest::Test
+  # test the hash_str function
   # test that the hash function work correctly
   def test_hash_str
     str_to_hash = 'bill'
     assert_equal 'f896', hash_str(str_to_hash)
+  end
+
+  # test that the hash function work correctly when given a valid first line
+  def test_hash_str_sample_first_line
+    str_to_hash = '0|0|SYSTEM>569274(100)|1553184699.650330000'
+    assert_equal '288d', hash_str(str_to_hash)
   end
 
   # test verify_user_input method
