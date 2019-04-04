@@ -34,4 +34,8 @@ class UtilsTest < Minitest::Test
   def test_verify_user_input_exist
     assert_equal [true, 'verifier.rb'], verify_user_input(['verifier.rb'])
   end
+
+  def test_greater_time
+    assert greater_time('1553188774.93851000', '1553188774.90937000')
+  end
 end
