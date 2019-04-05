@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'set'
 
 # given a message of text string in form of utf-8, return the hashed value
 # example:
@@ -75,7 +76,9 @@ def valid_transaction_pattern?(trans_str)
 end
 
 # apply a single transaction to accounts
-def apply_transaction(transaction, accounts)
+# if some transaction make an account's balance to be negative, save it in the negative_set
+# if some transaction make an account's balance become from negative to be positive, remove it from negative_set
+def apply_transaction(transaction, accounts, negative_set)
   a1 = transaction[0...6]
   a2 = transaction[7...13].to_i
   amount = transaction[14...-1].to_i
@@ -83,9 +86,11 @@ def apply_transaction(transaction, accounts)
     a1 = a1.to_i
     accounts[a1] = 0 if accounts[a1].nil?
     accounts[a1] -= amount
+    negative_set.add(a1) if accounts[a1].negative?
   end
   accounts[a2] = 0 if accounts[a2].nil?
   accounts[a2] += amount
+  negative_set.delete(a2) if accounts[a2] >= 0
 end
 
 # check whether the transactions are valid
@@ -93,27 +98,36 @@ end
 # accounts is an array with max size 1000000 that hold the address and balance
 def verify_transactions(transactions, accounts, line_number)
   data = transactions.split(':')
+  negative = Set.new
   if data.empty?
     puts "Line #{line_number}: transaction list is empty"
     return false
   end
 
+  # verify the pattern of each transaction and apply the transaction to the accounts
   data.each do |trans|
     unless valid_transaction_pattern?(trans)
       puts "Line #{line_number}: Cannot parse transaction '#{trans}'"
       return false
     end
 
-    apply_transaction(trans, accounts)
+    apply_transaction(trans, accounts, negative)
   end
 
-  accounts.each_with_index do |account, index|
-    if account != nil && account < 0
-      puts "Line #{line_number}: Invalid block, address #{index} has #{account} billcoins!"
-      return false
+  unless negative.empty?
+    negative.each do |address|
+      puts "Line #{line_number}: Invalid block, address #{address} has #{accounts[address]} billcoins!"
     end
-    # return false if account != nil && account < 0
+    return false
   end
+
+  # accounts.each_with_index do |account, index|
+  #   if account != nil && account < 0
+  #     puts "Line #{line_number}: Invalid block, address #{index} has #{account} billcoins!"
+  #     return false
+  #   end
+  #   # return false if account != nil && account < 0
+  # end
   true
 end
 
