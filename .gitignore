@@ -2,4 +2,6 @@ test*
 /coverage/*
 *.txt
 *.sh
-
+process_test.rb
+current.html
+flamegrapher.rb
