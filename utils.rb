@@ -46,9 +46,9 @@ require 'English'
 # example:
 # given 'bill'
 # should return 'f896'
-def hash_str(message)
+def hash_str(message, encoding_array)
   encodings = message.unpack('U*') # get the encoding of every character
-  sum = encodings.reduce(0) { |tmp_sum, encoding| tmp_sum + @encoding_array[encoding] } # add the hash value of chars
+  sum = encodings.reduce(0) { |tmp_sum, encoding| tmp_sum + encoding_array[encoding] } # add the hash value of chars
   (sum % 65_536).to_s(16) # modular and output as hexidecimal
 end
 
@@ -91,7 +91,7 @@ def valid_hash?(blocks, start_index, end_index)
     strings = blocks[index].split('|')
     str = strings[0...-1].join('|')
     hash_code = strings[-1][0...-1]
-    calc_hash = hash_str(str)
+    calc_hash = hash_str(str, @encoding_array)
     unless calc_hash == hash_code
       puts "Line #{index}: String '#{str}' hash set to #{hash_code}, should be #{calc_hash}"
       show_error_message

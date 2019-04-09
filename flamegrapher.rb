@@ -3,6 +3,6 @@
 require 'flamegraph'
 require_relative 'utils.rb'
 
-Flamegraph.generate('final.html') do
+Flamegraph.generate('current.html') do
   verify('long.txt')
 end
