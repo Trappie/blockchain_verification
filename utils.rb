@@ -154,7 +154,7 @@ end
 def greater?(time1, time2)
   v1 = time1.split('.')
   v2 = time2.split('.')
-  return false unless v1.size == 2 || v2.size == 2
+  return false unless v1.size == 2 && v2.size == 2
 
   main_value1 = v1[0]
   main_value2 = v2[0]
