@@ -106,7 +106,7 @@ end
 # print error message when something goes wrong
 def valid_blocks?(blocks, accounts)
   prev_line_number = -1
-  prev_time = '0'
+  prev_time = '0.0'
   prev_hash = '0'
 
   blocks.each do |line|
