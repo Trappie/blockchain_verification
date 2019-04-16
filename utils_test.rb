@@ -148,6 +148,11 @@ class UtilsTest < Minitest::Test
     time2 = '1553184699.650330000'
     refute greater?(time1, time2)
   end
+  def test_greater_equal_notInt
+    time1 = 'aaaaaa' # should turn into 0
+    time2 = 'bbbbbbb'
+    refute greater?(time1, time2)
+  end
   # 3. test that greater? return false if time1 < time2
   def test_greater_smaller
     time1 = '1553184699.650330000'
@@ -170,6 +175,8 @@ class UtilsTest < Minitest::Test
     time2 = '1553184699'
     refute greater?(time1, time2)
   end
+
+  
 
 
   # test valid_transaction_pattern? method
