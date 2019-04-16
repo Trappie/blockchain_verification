@@ -252,7 +252,14 @@ class UtilsTest < Minitest::Test
     assert verify_transactions(valid_transaction, accounts, 0)
     assert_output(""){verify_transactions(valid_transaction, accounts, 0)}
   end
+  def test_verify_transactions_all_valid_0
+    accounts = []
+    valid_transaction = '000000>000000(0)'
+    assert verify_transactions(valid_transaction, accounts, 0)
+    assert_output(""){verify_transactions(valid_transaction, accounts, 0)}
+  end
 
+  
   # test show_error_message
   # 1. test the output of show_error_message is correct
   def test_show_error_message_correct
