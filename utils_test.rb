@@ -288,7 +288,9 @@ class UtilsTest < Minitest::Test
   end
   # 6. test that it return [true, line_number, curr_hash, time] when the line is valid
   def test_verify_line_transactions_valid
-    assert_equal [true, 1, '292a', '1553184699.652449000'], verify_line("1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2\n", 0, '288d', '1553184699.650330000', @account_set)
+    accounts = []
+    verify_line("0|0|SYSTEM>569274(100)|1553184699.650330000|288d\n", -1, '0', '0.0', accounts)
+    assert_equal [true, 1, '92a2', '1553184699.652449000'], verify_line("1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2\n", 0, '288d', '1553184699.650330000', accounts)
 #    assert_equal [true, 0, '288d', '1553184699.650330000'], verify_line("0|0|SYSTEM>569274(100)|1553184699.650330000|288d\n", 0, '0', '0.0', accounts)
   end
 end
