@@ -170,7 +170,7 @@ class UtilsTest < Minitest::Test
     time2 = '1553184699'
     refute greater?(time1, time2)
   end
-  def test_greater_both_invalid_notInt
+  def test_greater_both_invalid_notfloat
     time1 = 'aaaaaa' # should turn into 0
     time2 = 'bbbbbbb'
     refute greater?(time1, time2)
